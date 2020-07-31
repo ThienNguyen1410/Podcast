@@ -45,4 +45,19 @@ data class EpisodeViewData (
             episodesToEpisodesView(podcast.episodes)
         )
     }
+
+    fun getPodcast(podcastSummaryViewData: SearchViewModel.PodcastSummaryViewData,
+                   callback:(PodcastViewData?) -> Unit) {
+        val repo = podcastRepo ?: return
+        val feedUrl = podcastSummaryViewData.feedUrl ?: return
+
+        repo.getPodcast(feedUrl) {
+            it?.let {
+                it.feedTitle = podcastSummaryViewData.name ?: ""
+                it.imageUrl = podcastSummaryViewData.imageUrl ?: ""
+                activePodcastViewData = podcastToPodcastView(it)
+                callback(activePodcastViewData)
+            }
+        }
+    }
 }

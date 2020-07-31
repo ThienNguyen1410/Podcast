@@ -14,6 +14,7 @@ class SearchViewModel (application : Application) : AndroidViewModel(application
         var lastUpdate:String? = "",
         var imageUrl: String? = "",
         var feedUrl: String? = "")
+
     private fun itunesPodcastToPodcastSummaryView(
         itunesPodcast: PodcastResponse.ItunesPodcast) : PodcastSummaryViewData {
         return PodcastSummaryViewData(
@@ -26,7 +27,7 @@ class SearchViewModel (application : Application) : AndroidViewModel(application
 
      fun searchPodcasts(term : String?,
         callback: (List<PodcastSummaryViewData>) -> Unit) {
-        itunesRepo?.searchByTerm(term, {results ->
+        itunesRepo?.searchByTerm(term) { results ->
             if (results == null) {
                 callback(emptyList())
             } else {
@@ -35,7 +36,7 @@ class SearchViewModel (application : Application) : AndroidViewModel(application
                 }
                 callback(searchView)
             }
-        })
-    }
+        }
+     }
 
 }
